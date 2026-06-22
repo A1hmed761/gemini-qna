@@ -2,20 +2,23 @@ import os
 import shutil
 from dotenv import load_dotenv
 
-os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
-load_dotenv()  # loads .env file
+load_dotenv()
 
 from langchain_community.document_loaders import TextLoader, PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from google import genai
 
 faiss_index_path = "faiss_index"
 
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-
-
+# -------------------------
+# GEMINI EMBEDDINGS (NEW)
+# -------------------------
+embeddings = GoogleGenerativeAIEmbeddings(
+    model="models/text-embedding-004",
+    google_api_key=os.getenv("GEMINI_API_KEY")
+)
 # -------------------------
 # 1. PROCESS FILE FUNCTION
 # -------------------------
